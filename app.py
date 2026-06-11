@@ -1,5 +1,5 @@
 import os
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template, request
@@ -31,6 +31,13 @@ def timeago(dt):
 
 
 app.jinja_env.filters["timeago"] = timeago
+
+
+def fmt_cairo(dt, fmt="%d %b %Y %H:%M"):
+    return (dt + timedelta(hours=3)).strftime(fmt)
+
+
+app.jinja_env.filters["fmt_cairo"] = fmt_cairo
 
 
 def get_db():
