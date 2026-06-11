@@ -1,24 +1,29 @@
 # ⬡ LabPulse
 
-Deployment tracker for self-hosted Kubernetes.  
-Records every push — service, version, commit, status.
+A lightweight deployment tracker for self-hosted Kubernetes clusters.
+Every push to your repo is automatically recorded — giving you a live history
+of what was deployed, when, and whether it succeeded.
 
 **[labpulse.alalfy.dev](https://labpulse.alalfy.dev)**
 
-Stack: Flask, PostgreSQL 17, Docker, k3s, Traefik, GitHub Actions.
+## Tech Stack
 
-## API
+| Layer | Technology |
+|-------|-----------|
+| Backend | Python / Flask |
+| Database | PostgreSQL 17 |
+| Frontend | Jinja2 + CSS (Gruvbox theme) |
+| Container | Docker |
+| Orchestration | k3s |
+| Ingress | Traefik |
+| CI/CD | GitHub Actions (self-hosted runner |
+| Monitoring | Prometheus + Grafana |
 
-```http
-POST /api/deployments
-X-API-Key: <your-api-key>
-Content-Type: application/json
+## Features
 
-{
-  "service_name": "labpulse",
-  "status": "success",
-  "version": "1.0.3",
-  "commit_sha": "a1b2c3d",
-  "message": "Add health endpoint"
-}
+- Live status card per service (success / failed / running)
+- Deployment history table (last 20 deployments)
+- REST API for recording deployments
+- Kubernetes health/readiness probes
+- API key authentication
 ```

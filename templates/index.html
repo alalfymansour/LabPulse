@@ -12,12 +12,11 @@
     <header>
       <h1><span class="logo">⬡</span> LabPulse</h1>
       <p class="subtitle">
-        labpulse.alalfy.dev —
-        Last updated (EGT):
+        homelab.local —
+        Last updated:
         <time datetime="{{ latest.deployed_at.isoformat() if latest else '' }}">
           {{ latest.deployed_at | fmt_cairo('%d %b %Y %I:%M %p') if latest else '—' }}
         </time>
-        <a href="https://alalfy.dev" class="portfolio-btn" target="_blank">by alalfy.dev</a>
       </p>
     </header>
 
@@ -84,5 +83,8 @@
       </div>
     </section>
   </div>
+  <footer class="footer">
+    <a href="https://alalfy.dev" target="_blank">alalfy.dev</a>
+  </footer>
 </body>
 </html>
