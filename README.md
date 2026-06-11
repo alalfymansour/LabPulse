@@ -26,4 +26,3 @@ of what was deployed, when, and whether it succeeded.
 - REST API for recording deployments
 - Kubernetes health/readiness probes
 - API key authentication
-```
