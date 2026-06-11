@@ -1,5 +1,6 @@
 import os
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template, request
@@ -31,6 +32,15 @@ def timeago(dt):
 
 
 app.jinja_env.filters["timeago"] = timeago
+
+
+def date_cairo(dt, fmt="%d %b %Y %H:%M"):
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(ZoneInfo("Africa/Cairo")).strftime(fmt)
+
+
+app.jinja_env.filters["date_cairo"] = date_cairo
 
 
 def get_db():

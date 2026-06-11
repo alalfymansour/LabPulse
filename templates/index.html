@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LabPulse</title>
-  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48cG9seWdvbiBwb2ludHM9JzUwLDUgOTUsMjcuNSA5NSw3Mi41IDUwLDk1IDUsNzIuNSA1LDI3LjUnIGZpbGw9JyMwMGQ0YWEnIHN0cm9rZT0nd2hpdGUnIHN0cm9rZS13aWR0aD0nMycvPjwvc3ZnPg==">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48cG9seWdvbiBwb2ludHM9JzUwLDUgOTUsMjcuNSA5NSw3Mi41IDUwLDk1IDUsNzIuNSA1LDI3LjUnIGZpbGw9JyMwMGQ0YWEnIHN0cm9rZT0nd2hpdGUnIHN0cm9rZS13aWR0aD0nMycvPjwvc3ZnPg==">
+  <link rel="alternate icon" href="/static/favicon.ico">
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
@@ -15,7 +16,7 @@
         homelab.local —
         Last updated:
         <time datetime="{{ latest.deployed_at.isoformat() if latest else '' }}">
-          {{ latest.deployed_at.strftime('%d %b %Y %H:%M') if latest else '—' }}
+          {{ latest.deployed_at | date_cairo if latest else '—' }}
         </time>
       </p>
     </header>
@@ -62,7 +63,7 @@
               </td>
               <td>{{ 'v' + d.version if d.version else '-' }}</td>
               <td><code>{{ d.commit_sha[:7] if d.commit_sha else '-' }}</code></td>
-              <td>{{ d.deployed_at.strftime('%H:%M') }}</td>
+              <td>{{ d.deployed_at | date_cairo('%H:%M') }}</td>
             </tr>
             {% endfor %}
             {% if not deployments %}
