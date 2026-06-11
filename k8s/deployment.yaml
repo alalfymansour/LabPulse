@@ -20,7 +20,6 @@ spec:
       containers:
         - name: labpulse
           image: ghcr.io/alalfymansour/labpulse:latest
-          imagePullPolicy: Always
           ports:
             - containerPort: 5000
           env:
