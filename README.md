@@ -16,7 +16,7 @@ of what was deployed, when, and whether it succeeded.
 | Container | Docker |
 | Orchestration | k3s |
 | Ingress | Traefik |
-| CI/CD | GitHub Actions (self-hosted runner |
+| CI/CD | GitHub Actions (self-hosted runner) |
 | Monitoring | Prometheus + Grafana |
 
 ## Features
