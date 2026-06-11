@@ -47,6 +47,25 @@ header h1 {
   color: var(--gray);
   font-size: 0.875rem;
   margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.portfolio-btn {
+  color: var(--blue);
+  text-decoration: none;
+  font-size: 0.75rem;
+  border: 1px solid var(--blue);
+  border-radius: 6px;
+  padding: 0.15rem 0.6rem;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.portfolio-btn:hover {
+  background: var(--blue);
+  color: var(--bg);
 }
 
 .status-cards {
@@ -58,33 +77,17 @@ header h1 {
   border: 1px solid var(--bg2);
   border-radius: 12px;
   padding: 1.5rem 1.75rem;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  position: relative;
   overflow: hidden;
   box-shadow: 0 4px 24px rgba(0,0,0,0.4);
   min-width: 280px;
 }
 
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--gray);
-  border-radius: 12px 12px 0 0;
-}
-
-.card-green::before  { background: linear-gradient(90deg, var(--green), #6b8e23); }
-.card-red::before    { background: linear-gradient(90deg, var(--red), #8b0000); }
-.card-yellow::before { background: linear-gradient(90deg, var(--yellow), #b8860b); }
-
-.card-green  { border-color: rgba(184,187,38,0.2); box-shadow: 0 4px 24px rgba(184,187,38,0.08); }
-.card-red    { border-color: rgba(251,73,52,0.2); box-shadow: 0 4px 24px rgba(251,73,52,0.08); }
-.card-yellow { border-color: rgba(250,189,47,0.2); box-shadow: 0 4px 24px rgba(250,189,47,0.08); }
+.card-green  { border-color: rgba(184,187,38,0.3); box-shadow: 0 4px 28px rgba(184,187,38,0.25); }
+.card-red    { border-color: rgba(251,73,52,0.3); box-shadow: 0 4px 28px rgba(251,73,52,0.25); }
+.card-yellow { border-color: rgba(250,189,47,0.3); box-shadow: 0 4px 28px rgba(250,189,47,0.25); }
 
 .card-service {
   font-weight: 700;

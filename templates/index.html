@@ -12,11 +12,12 @@
     <header>
       <h1><span class="logo">⬡</span> LabPulse</h1>
       <p class="subtitle">
-        homelab.local —
-        Last updated:
+        labpulse.alalfy.dev —
+        Last updated (EGT):
         <time datetime="{{ latest.deployed_at.isoformat() if latest else '' }}">
-          {{ latest.deployed_at | fmt_cairo('%d %b %Y %H:%M') if latest else '—' }}
+          {{ latest.deployed_at | fmt_cairo('%d %b %Y %I:%M %p') if latest else '—' }}
         </time>
+        <a href="https://alalfy.dev" class="portfolio-btn" target="_blank">by alalfy.dev</a>
       </p>
     </header>
 
@@ -70,7 +71,7 @@
               </td>
               <td>{{ 'v' + d.version if d.version else '-' }}</td>
               <td><code>{{ d.commit_sha[:7] if d.commit_sha else '-' }}</code></td>
-              <td>{{ d.deployed_at | fmt_cairo('%H:%M') }}</td>
+              <td>{{ d.deployed_at | fmt_cairo('%I:%M %p') }}</td>
             </tr>
             {% endfor %}
             {% if not deployments %}
