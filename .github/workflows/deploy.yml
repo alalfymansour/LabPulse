@@ -33,8 +33,12 @@ jobs:
           kubectl apply -f k8s/service.yaml
           kubectl apply -f k8s/ingress.yaml
 
-      - name: Wait for rollout
-        run: kubectl rollout status deployment/labpulse -n labpulse --timeout=5m
+      - name: Update image
+        run: |
+          kubectl set image deployment/labpulse \
+            labpulse=ghcr.io/alalfymansour/labpulse:${{ github.sha }} \
+            -n labpulse
+          kubectl rollout status deployment/labpulse -n labpulse --timeout=5m
 
       - name: Record success
         if: success()

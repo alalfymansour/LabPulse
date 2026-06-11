@@ -1,6 +1,7 @@
 import os
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 
+import pytz
 from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template, request
 import psycopg2
@@ -33,8 +34,12 @@ def timeago(dt):
 app.jinja_env.filters["timeago"] = timeago
 
 
+cairo_tz = pytz.timezone("Africa/Cairo")
+
 def fmt_cairo(dt, fmt="%d %b %Y %H:%M"):
-    return (dt + timedelta(hours=3)).strftime(fmt)
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=pytz.utc)
+    return dt.astimezone(cairo_tz).strftime(fmt)
 
 
 app.jinja_env.filters["fmt_cairo"] = fmt_cairo
