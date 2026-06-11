@@ -54,7 +54,7 @@ jobs:
               'message': os.environ.get('COMMIT_MSG', 'Deployment succeeded')
           }
           req = urllib.request.Request(
-              'http://labpulse.labpulse.svc.cluster.local:5000/api/deployments',
+              'http://192.168.1.167/api/deployments',
               data=json.dumps(data).encode(),
               headers={
                   'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ jobs:
               'message': 'Deployment failed'
           }
           req = urllib.request.Request(
-              'http://labpulse.labpulse.svc.cluster.local:5000/api/deployments',
+              'http://192.168.1.167/api/deployments',
               data=json.dumps(data).encode(),
               headers={
                   'Content-Type': 'application/json',
