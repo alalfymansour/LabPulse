@@ -7,8 +7,17 @@ metadata:
     kubernetes.io/ingress.class: traefik
 spec:
   rules:
-    - host: labpulse.local
+    - host: homelab.local
       http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: labpulse
+                port:
+                  number: 5000
+    - http:
         paths:
           - path: /
             pathType: Prefix
