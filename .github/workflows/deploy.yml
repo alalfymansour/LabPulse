@@ -44,7 +44,6 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
           COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
-          # نستخدم python لتجنب مشاكل الاقتباسات في رسالة الكوميت
           python -c "
           import os, json, urllib.request
           data = {
@@ -81,7 +80,7 @@ jobs:
               'message': 'Deployment failed'
           }
           req = urllib.request.Request(
-              'http://labpulse.labpulse.svc.cluster.local:5000/api/deployments',
+              'http://10.43.48.186:5000/api/deployments',
               data=json.dumps(data).encode(),
               headers={
                   'Content-Type': 'application/json',
