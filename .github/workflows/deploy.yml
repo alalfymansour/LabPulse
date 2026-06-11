@@ -80,7 +80,7 @@ jobs:
               'message': 'Deployment failed'
           }
           req = urllib.request.Request(
-              'http://10.43.48.186:5000/api/deployments',
+              'http://labpulse.labpulse.svc.cluster.local:5000/api/deployments',
               data=json.dumps(data).encode(),
               headers={
                   'Content-Type': 'application/json',
