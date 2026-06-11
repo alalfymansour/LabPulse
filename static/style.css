@@ -88,7 +88,7 @@ header h1 {
   overflow: hidden;
   box-shadow: 0 4px 24px rgba(0,0,0,0.4);
   min-width: 220px;
-  width: fit-content;
+  width: 100%;
 }
 
 .card-green  { border-color: rgba(184,187,38,0.3); box-shadow: 0 4px 28px rgba(184,187,38,0.25); }
