@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: labpulse
+  namespace: labpulse
+  labels:
+    app: labpulse
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: labpulse
+  template:
+    metadata:
+      labels:
+        app: labpulse
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: labpulse
+          image: ghcr.io/alalfymansour/labpulse:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: labpulse-secret
+                  key: POSTGRES_PASSWORD
+            - name: DATABASE_URL
+              value: "postgresql://labpulse:$(POSTGRES_PASSWORD)@postgres:5432/labpulse"
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: labpulse-secret
+                  key: API_KEY
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 3
+            periodSeconds: 10

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LabPulse</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><span class="logo">⬡</span> LabPulse</h1>
+      <p class="subtitle">
+        homelab.local —
+        Last updated:
+        <time datetime="{{ latest.deployed_at.isoformat() if latest else '' }}">
+          {{ latest.deployed_at.strftime('%d %b %Y %H:%M') if latest else '—' }}
+        </time>
+      </p>
+    </header>
+
+    {% if latest %}
+    <section class="status-cards">
+      {% set status_color = 'green' if latest.status == 'success' else 'red' if latest.status == 'failed' else 'yellow' %}
+      <div class="card card-{{ status_color }}">
+        <div class="card-service">{{ latest.service_name }}</div>
+        <div class="card-status">
+          <span class="dot dot-{{ status_color }}"></span>
+          {{ latest.status | capitalize }}
+        </div>
+        <div class="card-version">{{ 'v' + latest.version if latest.version else '-' }}</div>
+        <div class="card-time">{{ latest.deployed_at | timeago }}</div>
+      </div>
+    </section>
+    {% endif %}
+
+    <section class="table-section">
+      <h2>Deployment History</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Service</th>
+              <th>Status</th>
+              <th>Version</th>
+              <th>Commit</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for d in deployments %}
+            <tr>
+              <td>{{ d.service_name }}</td>
+              <td class="status-{{ d.status }}">
+                {% if d.status == 'success' %}
+                &#10003;
+                {% elif d.status == 'failed' %}
+                &#10007;
+                {% endif %}
+                {{ d.status | capitalize }}
+              </td>
+              <td>{{ 'v' + d.version if d.version else '-' }}</td>
+              <td><code>{{ d.commit_sha[:7] if d.commit_sha else '-' }}</code></td>
+              <td>{{ d.deployed_at.strftime('%H:%M') }}</td>
+            </tr>
+            {% endfor %}
+            {% if not deployments %}
+            <tr>
+              <td colspan="5" class="empty">No deployments yet.</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

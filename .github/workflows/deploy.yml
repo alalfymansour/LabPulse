@@ -1,0 +1,65 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE: ghcr.io/alalfymansour/labpulse
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u alalfymansour --password-stdin
+
+      - name: Build and push image
+        run: |
+          docker build -t ${{ env.IMAGE }}:${{ github.sha }} -t ${{ env.IMAGE }}:latest .
+          docker push ${{ env.IMAGE }}:${{ github.sha }}
+          docker push ${{ env.IMAGE }}:latest
+
+      - name: Apply k8s manifests
+        run: |
+          kubectl apply -f k8s/namespace.yaml
+          kubectl apply -f k8s/secret.yaml
+          kubectl apply -f k8s/postgres.yaml
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
+          kubectl apply -f k8s/ingress.yaml
+
+      - name: Wait for rollout
+        run: kubectl rollout status deployment/labpulse -n labpulse --timeout=5m
+
+      - name: Record success
+        if: success()
+        run: |
+          curl -X POST http://192.168.1.167/api/deployments \
+            -H "X-API-Key: ${{ secrets.API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "service_name": "labpulse",
+              "status": "success",
+              "version": "'"$(git describe --tags --always 2>/dev/null || echo '1.0.0')"'",
+              "commit_sha": "'"${GITHUB_SHA::7}"'",
+              "message": "'"$(git log -1 --format=%s)"'"
+            }'
+
+      - name: Record failure
+        if: failure()
+        run: |
+          curl -X POST http://192.168.1.167/api/deployments \
+            -H "X-API-Key: ${{ secrets.API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "service_name": "labpulse",
+              "status": "failed",
+              "version": "'"$(git describe --tags --always 2>/dev/null || echo '1.0.0')"'",
+              "commit_sha": "'"${GITHUB_SHA::7}"'",
+              "message": "Deployment failed"
+            }'
