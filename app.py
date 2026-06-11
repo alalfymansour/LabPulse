@@ -15,6 +15,8 @@ API_KEY = os.environ["API_KEY"]
 
 
 def timeago(dt):
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
     diff = datetime.now(timezone.utc) - dt
     mins = int(diff.total_seconds() / 60)
     if mins < 1:
@@ -100,8 +102,8 @@ def create_deployment():
     cur = conn.cursor()
     cur.execute(
         """
-        INSERT INTO deployments (service_name, status, version, commit_sha, message)
-        VALUES (%s, %s, %s, %s, %s)
+        INSERT INTO deployments (service_name, status, version, commit_sha, message, deployed_at)
+        VALUES (%s, %s, %s, %s, %s, NOW() AT TIME ZONE 'UTC')
         """,
         (
             data["service_name"],
